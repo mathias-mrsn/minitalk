@@ -21,19 +21,27 @@ RM			= rm -rf
 all:		${SERVER_NAME} ${CLIENT_NAME}
 
 ${SERVER_NAME}:	${OBJS_SERVER}
-					${MAKE} -C libft
-					${CC} ${FLAGS} -o ${SERVER_NAME} ${OBJS_SERVER} libft/libft.a -I ${INCLUDES}
+					@${MAKE} -C libft
+					@echo "minitalk : libft compiled."
+					@${CC} ${FLAGS} -o ${SERVER_NAME} ${OBJS_SERVER} libft/libft.a -I ${INCLUDES}
+					@echo "minitalk : server compiled."
 
 ${CLIENT_NAME}:	${OBJS_CLIENT}
-					${CC} ${FLAGS} -o ${CLIENT_NAME} ${OBJS_CLIENT} libft/libft.a -I ${INCLUDES}
+					@${CC} ${FLAGS} -o ${CLIENT_NAME} ${OBJS_CLIENT} libft/libft.a -I ${INCLUDES}
+					@echo "minitalk : client compiled."
+
+.c.o:
+				@${CC} ${CFLAGS} -c $< -o ${<:c=o}
 
 clean:		
-			${MAKE} -C libft clean
-			${RM} ${OBJS_CLIENT} ${OBJS_SERVER}
+			@${MAKE} -C libft clean
+			@${RM} ${OBJS_CLIENT} ${OBJS_SERVER}
+			@echo "minitalk : \".o\" files were erased"
 
 fclean:		clean
-			${MAKE} -C libft fclean
-			${RM} ${CLIENT_NAME} ${SERVER_NAME}
+			@${MAKE} -C libft fclean
+			@${RM} ${CLIENT_NAME} ${SERVER_NAME}
+			@echo "minitalk : \".o\" and executables were erased"
 
 re:			fclean all
 
