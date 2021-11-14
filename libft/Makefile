@@ -64,16 +64,16 @@ INCS = includes
 all: ${NAME}
 
 .c.o:
-			${CC} ${CFLAGS} -c $< -o ${<:.c=.o} -I ${INCS}
+			@${CC} ${CFLAGS} -c $< -o ${<:.c=.o} -I ${INCS}
 
 $(NAME): $(OBJS)
-			ar -rcs $(NAME) $(OBJS)
+			@ar -rcs $(NAME) $(OBJS)
 
 clean:
-			${RM} ${OBJS}
+			@${RM} ${OBJS}
 
 fclean: clean
-			${RM} ${NAME}
+			@${RM} ${NAME}
 
 re: fclean all
 
