@@ -1,9 +1,14 @@
 #include "../includes/libft.h"
 
-void	ft_putstr_fd(char *s, int fd)
+void ft_putstr_fd(char *s, int fd)
 {
-	if(!s)
+	if (!s)
 		return;
-	while(*s)
+	while (*s)
 		ft_putchar_fd(*s++, fd);
+}
+
+void ft_putstr(char *str)
+{
+	ft_putstr_fd(str, 1);
 }

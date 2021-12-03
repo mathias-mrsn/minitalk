@@ -1,94 +1,51 @@
-#include "../../includes/minitalk.h"
+#include "minitalk.h"
 
-int	ft_atoi_binary(char c[9])
+static void ft_exit(int signal)
 {
-	int	i;
-	int	res;
-
-	res = 0;
-	i = 0;
-	while(i < 8)
-	{
-		res *= 2;
-		res += c[i] - 48;
-		i++;
-	}
-	return (res);
+	ft_printf("\n\\----------------END----------------/\n");
+	exit(0);
 }
 
-
-void	ft_stock_char(int signal, siginfo_t *siginfo, void *data)
+static void ft_stock_char(int signal, siginfo_t *siginfo, void *data)
 {
-	static char c[9];
-	static int	start = 0;
-	char character;
-	static int i = 0;
+	static unsigned char	c = 0;
+	static int32_t			i = 7;
+	static uint8_t			start = 0;
 
-	if(i == 0)
-		ft_memset(c, '\0', 9);
-	if(start == 0)
-	{
-		start = 1;
+	(void)data;
+	usleep(50);
+	kill(siginfo->si_pid, SIGUSR1);
+	if (0 == start && ++start)
 		ft_printf("%d --> ", siginfo->si_pid);
-	}
-	if(i < 8)
+	if (i > -1)
+		c |= ((signal == SIGUSR2) << i);
+	i--;
+	if (i == -1)
 	{
-		if(signal == SIGUSR1)
-			c[i] = '0';
-		else
-			c[i] = '1';
-		i++;
-	}
-	if(i == 8)
-	{
-		c[8] = '\0';
-		character = ft_atoi_binary(c);
-		ft_printf("%c", character);
-		if(character == 0)
+		ft_printf("%c", c);
+		if (0 == c)
 		{
-			ft_printf("\n");
+			printf("\n");
 			start = 0;
 		}
-		i = 0;
+		c = '\0';
+		i = 7;
 	}
 }
 
-int	main(void)
+int main(void)
 {
 	struct sigaction sa;
 
 	ft_memset(&sa, 0, sizeof(struct sigaction));
 	sa.sa_sigaction = ft_stock_char;
-	sa.sa_flags = SA_SIGINFO | SA_RESTART;
+	sa.sa_flags = SA_SIGINFO;
 
-
-	printf("|------------PID : %d------------|\n", getpid());
+	ft_printf("/------------PID : %d------------\\\n", getpid());
 	sigaction(SIGUSR1, &sa, NULL);
 	sigaction(SIGUSR2, &sa, NULL);
-	while(1)
+	signal(SIGINT, &ft_exit);
+	while (1)
 		pause();
-	printf("END");
 	return (0);
 }
-
-/*----------------------------------------------------------------
-
-
-signal() 	: Get a signal and execute a function with in param his signal (signal, function)
-
-kill()		: Sent a signal to a pid (pid, signal)
-
-getpid()	: Get the pid of the server program
-
-pause()		: Suspends the program until a singal arrives (void)
-
-usleep()	: Suspends the program during n microseconds (useconds_t)
-
-exit()		: Exit of the program
-
-sigaction()	: 
-
-
-SIGUSR 1, 2 :
-
-*/

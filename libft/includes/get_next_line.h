@@ -3,14 +3,7 @@
 
 //----------------------------------------------------------------
 
-# define BUFFER_SIZE 10000000
-# include <fcntl.h>
-# include <stdio.h>
-# include "libft.h"
-
-// Leaks OK !
-// Norme No
-// Do more test !
+# define BUFFER_SIZE 1
 
 //----------------------------------------------------------------
 
@@ -20,16 +13,18 @@
 
 typedef struct		s_file
 {
-	int				fd;
-	char			*save;
+	int			fd;
+	int			readed_len;
+	char		*save;
 	struct s_file	*next;
 }					t_file;
 
-char *ft_get_save(char *str);
+char *ft_get_save(char *src);
+void	ft_free(t_file **mem, int fd);
+char	*get_next_line(int fd);
 int	ft_is_line(char c, char *set);
 char	*ft_strjoin_bis(char *s1, char *s2);
 char	*ft_strdup_bis(char *src);
 int		ft_strlen_bis(char *str);
-char *get_next_line(int fd);
 
 #endif

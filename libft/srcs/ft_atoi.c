@@ -1,10 +1,10 @@
 #include "../includes/libft.h"
 
-int	ft_atoi(const char *str)
+int ft_atoi(const char *str)
 {
-	int	i;
-	int	neg;
-	int	res;
+	int i;
+	int neg;
+	int res;
 
 	res = 0;
 	neg = 1;

@@ -1,65 +1,77 @@
-#include "../../includes/minitalk.h"
+#include "minitalk.h"
 
-void	ft_char_to_binary(int pid, const char c)
+static void	char_to_binary(int pid, const char c)
 {
 	int	index;
 
 	index = 7;
-	while(index > -1)
+	while (index > -1)
 	{
-		if(1 & c >> index)
+		if (1 & c >> index)
 		{
-			if(kill(pid, SIGUSR2) == -1)
+			if (__kill__(pid, SIGUSR2) == -1)
 				exit(0);
 		}
 		else
 		{
-			if(kill(pid, SIGUSR1) == -1)
+			if (__kill__(pid, SIGUSR1) == -1)
 				exit(0);
 		}
-		usleep(100);
 		index--;
+		signal(SIGUSR1, (void *)__count_signal__);
+		pause();
+		usleep(50);
 	}
 }
 
-void	ft_encoding_str(int pid, char *str)
+static void	encoding_str(int pid, char *str)
 {
-	int	index;
+	int index;
 
 	index = 0;
-	while(str[index])
+	while (str[index])
 	{
-		ft_char_to_binary(pid, str[index]);
+		char_to_binary(pid, str[index]);
 		index++;
 	}
-	ft_char_to_binary(pid, '\0');
+	char_to_binary(pid, '\0');
 }
 
-void	ft_stdin(int pid)
+static int	check_params(int argc, char **argv)
 {
-	char *str;
-
-	str = get_next_line(0);
-	while(str)
-	{
-		ft_encoding_str(pid, str);
-		str = get_next_line(0);
-	}
-}
-
-
-
-int	main(int argc, char **argv)
-{
-	int	pid;
+	uint32_t	pid;
 
 	if (argc < 2)
-		ft_printf("minitalk : arguments missing");
+		return (ft_printf("minitalk : arguments missing"), -1);
 	if (argc > 3)
-		ft_printf("minitalk : too many arguments");
+		return (ft_printf("minitalk : too many arguments"), -1);
 	pid = ft_atoi(argv[1]);
-	if(argc == 2)
-		ft_stdin(pid);
-	ft_encoding_str(pid, argv[2]);
-	return(0);
+	if(kill(pid, 0) == -1)
+		return (ft_printf("minitalk : invalid PID"), -1);
+	return (1);
+}
+
+int main(int argc, char **argv)
+{
+	uint32_t	pid;
+	char		*str;
+
+	if (-1 == check_params(argc, argv))
+		return (1);
+	pid = ft_atoi(argv[1]);
+	if (argc == 2)
+	{
+		str = get_next_line(0);
+		while (str)
+		{
+			encoding_str(pid, str);
+			free(str);
+			str = get_next_line(0);
+			usleep(1000);
+		}
+	}
+	else
+		encoding_str(pid, argv[2]);
+	ft_printf("You lost %d signals", __kill__(0, 0) - __count_signal__(0));
+	return (0);
 }

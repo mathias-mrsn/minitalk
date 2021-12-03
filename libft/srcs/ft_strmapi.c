@@ -3,15 +3,15 @@
 char *ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
 	char *newstr;
-	size_t	i;
+	size_t i;
 
 	i = 0;
-	if(!s)
+	if (!s)
 		return (NULL);
 	newstr = malloc(sizeof(char) * ft_strlen(s) + 1);
-	if(!newstr)
+	if (!newstr)
 		return (NULL);
-	while(s[i])
+	while (s[i])
 	{
 		newstr[i] = f(i, s[i]);
 		i++;

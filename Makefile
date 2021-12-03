@@ -4,7 +4,8 @@ CLIENT_NAME	= client
 
 SRCS_SERVER = ./srcs/server/server.c
 
-SRCS_CLIENT = ./srcs/client/client.c
+SRCS_CLIENT = ./srcs/client/client.c \
+			./srcs/client/client_utils.c
 
 OBJS_SERVER = ${SRCS_SERVER:.c=.o}
 
@@ -14,24 +15,26 @@ CC			= clang
 
 FLAGS		= -Wall -Wextra -Werror
 
-INCLUDES	= ./includes/minitalk.h
+INCLUDES	= -I ./includes/ -I ./libft/includes/
 
 RM			= rm -rf
+
+.c.o:
+				@${CC} ${CFLAGS} ${INCLUDES} -c $< -o $@
 
 all:		${SERVER_NAME} ${CLIENT_NAME}
 
 ${SERVER_NAME}:	${OBJS_SERVER}
 					@${MAKE} -C libft
 					@echo "minitalk : libft compiled."
-					@${CC} ${FLAGS} -o ${SERVER_NAME} ${OBJS_SERVER} libft/libft.a -I ${INCLUDES}
+					@${CC} -g ${FLAGS} -o ${SERVER_NAME} ${OBJS_SERVER} libft/libft.a ${INCLUDES}
 					@echo "minitalk : server compiled."
 
 ${CLIENT_NAME}:	${OBJS_CLIENT}
-					@${CC} ${FLAGS} -o ${CLIENT_NAME} ${OBJS_CLIENT} libft/libft.a -I ${INCLUDES}
+					@${CC} -g ${FLAGS} -o ${CLIENT_NAME} ${OBJS_CLIENT} libft/libft.a ${INCLUDES}
 					@echo "minitalk : client compiled."
 
-.c.o:
-				@${CC} ${CFLAGS} -c $< -o ${<:c=o}
+
 
 clean:		
 			@${MAKE} -C libft clean

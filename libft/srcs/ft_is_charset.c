@@ -1,10 +1,10 @@
 #include "../includes/libft.h"
 
-int	ft_is_charset(char c, char *set)
+int ft_is_charset(char c, char *set)
 {
-	while(*set)
+	while (*set)
 	{
-		if(c == *set)
+		if (c == *set)
 			return (1);
 		set++;
 	}

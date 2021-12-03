@@ -1,10 +1,10 @@
 #include "../../includes/ft_printf.h"
 
-int		ft_get_convert(t_options *options, const char **str)
+int		printf_ft_get_convert(t_options *options, const char **str)
 {
 	if(**str)
 	{
-		if(ft_is_charset(*str[0], CONV_POSSIBLE))
+		if(printf_ft_is_charset(*str[0], CONV_POSSIBLE))
 			options->conversion = *str[0];
 		else
 			return(1);
@@ -14,9 +14,9 @@ int		ft_get_convert(t_options *options, const char **str)
 }
 
 
-int		ft_get_flags(t_options *options, const char **str)
+int		printf_ft_get_flags(t_options *options, const char **str)
 {
-	while(**str && ft_is_charset(*str[0], FLAGS))
+	while(**str && printf_ft_is_charset(*str[0], FLAGS))
 	{
 		if(**str && (**str) == '+')
 			options->flag_plus = 1;
@@ -41,7 +41,7 @@ int		ft_get_flags(t_options *options, const char **str)
 	return (0);
 }
 
-int	ft_get_width(const char **str, va_list settings)
+int	printf_ft_get_width(const char **str, va_list settings)
 {
 	int	width;
 
@@ -63,12 +63,12 @@ int	ft_get_width(const char **str, va_list settings)
 	return (width);
 }
 
-void	ft_get_precision(t_options *options, const char **str, va_list settings)
+void	printf_ft_get_precision(t_options *options, const char **str, va_list settings)
 {
 	if(**str && **str == '.')
 	{
 		options->flag_dot = 1;
 		(*str)++;
-		options->precision_value = ft_get_width(str, settings);
+		options->precision_value = printf_ft_get_width(str, settings);
 	}
 }

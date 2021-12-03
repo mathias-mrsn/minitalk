@@ -1,9 +1,9 @@
 #include "../includes/libft.h"
 
-size_t	ft_strlcat(char *dest, const char *src, size_t size)
+size_t ft_strlcat(char *dest, const char *src, size_t size)
 {
-	size_t	l;
-	size_t	i;
+	size_t l;
+	size_t i;
 
 	l = 0;
 	while (dest[l] && l < size)
