@@ -1,34 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_lstmap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/26 12:48:07 by mamaurai          #+#    #+#             */
-/*   Updated: 2021/12/05 13:55:45 by mamaurai         ###   ########.fr       */
+/*   Created: 2021/12/05 11:53:56 by mamaurai          #+#    #+#             */
+/*   Updated: 2021/12/05 11:55:16 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "libft.h"
 
-# include <stdlib.h>
-# include <fcntl.h>
-# include <unistd.h>
-
-typedef struct s_file
+t_list	*__lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 {
-	int				fd;
-	long			readed_len;
-	char			*save;
-	struct s_file	*next;
-}					t_file;
+	t_list	*new;
+	t_list	*newelem;
 
-char	*ft_get_save(char *src);
-char	*__gnl(int fd);
-int		ft_is_line(char c, char *set);
-char	*ft_strjoin(char *s1, char *s2);
-char	*ft_strdup(char *src);
-
-#endif
+	new = 0;
+	if (!f || !del || !lst)
+		return (NULL);
+	while (lst)
+	{
+		newelem = __lstnew((*f)(lst->content));
+		if (!newelem)
+		{
+			__lstclear(&new, del);
+			return (new);
+		}
+		__lstadd_back(&new, newelem);
+		lst = lst->next;
+	}
+	return (new);
+}

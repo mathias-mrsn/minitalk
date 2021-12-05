@@ -1,34 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/26 12:48:07 by mamaurai          #+#    #+#             */
-/*   Updated: 2021/12/05 13:55:45 by mamaurai         ###   ########.fr       */
+/*   Created: 2021/12/05 11:50:17 by mamaurai          #+#    #+#             */
+/*   Updated: 2021/12/05 11:51:46 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "libft.h"
 
-# include <stdlib.h>
-# include <fcntl.h>
-# include <unistd.h>
-
-typedef struct s_file
+void	*__memmove(void *dst, const void *src, size_t len)
 {
-	int				fd;
-	long			readed_len;
-	char			*save;
-	struct s_file	*next;
-}					t_file;
+	unsigned char	*s1;
+	unsigned char	*s2;
+	size_t			i;
 
-char	*ft_get_save(char *src);
-char	*__gnl(int fd);
-int		ft_is_line(char c, char *set);
-char	*ft_strjoin(char *s1, char *s2);
-char	*ft_strdup(char *src);
-
-#endif
+	s1 = (unsigned char *)dst;
+	s2 = (unsigned char *)src;
+	i = 0;
+	if (!src && !dst)
+		return (dst);
+	if (s1 > s2)
+		while (len--)
+			s1[len] = s2[len];
+	else
+	{
+		while (i < len)
+		{
+			s1[i] = s2[i];
+			i++;
+		}
+	}
+	return (dst);
+}

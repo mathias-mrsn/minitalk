@@ -1,33 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   client_utils.c                                     :+:      :+:    :+:   */
+/*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/05 13:40:56 by mamaurai          #+#    #+#             */
-/*   Updated: 2021/12/05 14:31:14 by mamaurai         ###   ########.fr       */
+/*   Created: 2021/12/05 11:59:53 by mamaurai          #+#    #+#             */
+/*   Updated: 2021/12/05 11:59:54 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minitalk.h"
+#include "libft.h"
 
-int	__count_signal__(int signal)
+char	*__strjoin(char const *s1, char const *s2)
 {
-	static size_t	received = 0;
+	size_t	i;
+	size_t	j;
+	char	*newstr;
 
-	if (signal == SIGUSR1)
-		received += 1;
-	return (received);
-}
-
-int	__kill__(int pid, int signal)
-{
-	static uint64_t	total_send = 0;
-
-	if (kill(pid, signal) == __ERROR)
-		return (__ERROR);
-	if (SIGUSR1 == signal || SIGUSR2 == signal)
-		total_send += 1;
-	return (total_send);
+	if (!s1 || !s2)
+		return (NULL);
+	i = __strlen(s1);
+	j = __strlen(s2);
+	newstr = malloc(sizeof(char) * (i + j + 1));
+	if (!newstr)
+		return (NULL);
+	i = 0;
+	j = 0;
+	while (s1[i])
+	{
+		newstr[i] = s1[i];
+		i++;
+	}
+	while (s2[j])
+	{
+		newstr[i + j] = s2[j];
+		j++;
+	}
+	newstr[i + j] = '\0';
+	return (newstr);
 }

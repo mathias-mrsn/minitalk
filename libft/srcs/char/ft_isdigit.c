@@ -1,34 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_isdigit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/26 12:48:07 by mamaurai          #+#    #+#             */
-/*   Updated: 2021/12/05 13:55:45 by mamaurai         ###   ########.fr       */
+/*   Created: 2021/12/05 11:41:48 by mamaurai          #+#    #+#             */
+/*   Updated: 2021/12/05 11:41:50 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "../includes/libft.h"
 
-# include <stdlib.h>
-# include <fcntl.h>
-# include <unistd.h>
-
-typedef struct s_file
+int	__isdigit(int c)
 {
-	int				fd;
-	long			readed_len;
-	char			*save;
-	struct s_file	*next;
-}					t_file;
-
-char	*ft_get_save(char *src);
-char	*__gnl(int fd);
-int		ft_is_line(char c, char *set);
-char	*ft_strjoin(char *s1, char *s2);
-char	*ft_strdup(char *src);
-
-#endif
+	if (c >= '0' && c <= '9')
+		return (1);
+	return (0);
+}

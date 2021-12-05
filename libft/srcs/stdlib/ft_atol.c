@@ -1,34 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_atol.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/26 12:48:07 by mamaurai          #+#    #+#             */
-/*   Updated: 2021/12/05 13:55:45 by mamaurai         ###   ########.fr       */
+/*   Created: 2021/12/05 11:56:04 by mamaurai          #+#    #+#             */
+/*   Updated: 2021/12/05 11:56:05 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "libft.h"
 
-# include <stdlib.h>
-# include <fcntl.h>
-# include <unistd.h>
-
-typedef struct s_file
+long	__atol(const char *str)
 {
-	int				fd;
-	long			readed_len;
-	char			*save;
-	struct s_file	*next;
-}					t_file;
+	int		i;
+	int		neg;
+	long	res;
 
-char	*ft_get_save(char *src);
-char	*__gnl(int fd);
-int		ft_is_line(char c, char *set);
-char	*ft_strjoin(char *s1, char *s2);
-char	*ft_strdup(char *src);
-
-#endif
+	res = 0;
+	neg = 1;
+	i = 0;
+	while ((str[i] >= 9 && str[i] <= 13) || str[i] == ' ')
+		i++;
+	if (str[i] == '+' || str[i] == '-')
+	{
+		if (str[i] == '-')
+			neg = -1;
+		i++;
+	}
+	while (__isdigit(str[i]))
+	{
+		res = res * 10 + (str[i] - 48);
+		i++;
+	}
+	return (res * neg);
+}
